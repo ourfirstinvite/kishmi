@@ -9,7 +9,11 @@
   const openButton = document.querySelector('#openInvitation');
   const audio = document.querySelector('#weddingAudio');
   const musicButton = document.querySelector('#musicToggle');
+  const preweddingVideo = document.querySelector('.video-wrap video');
+  const pagePetals = document.querySelector('#pagePetals');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let resumeWeddingAudio = false;
+  let heartShowerStarted = false;
 
   // The wedding muhurtham is 9:30 AM IST on 20 November 2026.
   const weddingMoment = new Date('2026-11-20T09:30:00+05:30').getTime();
@@ -34,22 +38,33 @@
   updateCountdown();
   window.setInterval(updateCountdown, 1000);
 
-  function makePetals() {
-    if (reduceMotion) return;
-    const field = document.querySelector('.petal-field');
-    for (let i = 0; i < 22; i += 1) {
-      const petal = document.createElement('span');
-      petal.className = 'petal';
-      petal.textContent = i % 3 === 0 ? '♥' : '❀';
-      petal.style.left = `${Math.random() * 100}%`;
-      petal.style.setProperty('--drift', `${Math.random() * 180 - 90}px`);
-      petal.style.animationDuration = `${7 + Math.random() * 10}s`;
-      petal.style.animationDelay = `${Math.random() * 8}s`;
-      petal.style.fontSize = `${10 + Math.random() * 13}px`;
-      field.append(petal);
-    }
+  function startHeartShower() {
+    if (reduceMotion || heartShowerStarted) return;
+    heartShowerStarted = true;
+    pagePetals.classList.add('is-active');
+    const pinks = ['#e87896', '#f3a0b5', '#d9577d', '#ffc1d0', '#ca4d73', '#f58daa'];
+    const makeHeart = () => {
+      if (document.hidden) return;
+      const heart = document.createElement('span');
+      heart.className = 'heart-petal';
+      heart.textContent = '♥';
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.color = pinks[Math.floor(Math.random() * pinks.length)];
+      const drift = Math.random() * 150 - 75;
+      const turn = Math.random() * 600 - 300;
+      heart.style.setProperty('--fall-duration', `${8 + Math.random() * 6}s`);
+      heart.style.setProperty('--fall-x', `${drift}px`);
+      heart.style.setProperty('--fall-mid-x', `${drift * 0.55}px`);
+      heart.style.setProperty('--fall-turn', `${turn}deg`);
+      heart.style.setProperty('--fall-mid-turn', `${turn * 0.55}deg`);
+      heart.style.setProperty('--fall-size', `${9 + Math.random() * 13}px`);
+      heart.style.setProperty('--fall-alpha', `${0.38 + Math.random() * 0.35}`);
+      pagePetals.append(heart);
+      heart.addEventListener('animationend', () => heart.remove(), { once: true });
+    };
+    makeHeart();
+    window.setInterval(makeHeart, 620);
   }
-  makePetals();
 
   openButton.addEventListener('click', () => {
     document.body.classList.remove('is-locked');
@@ -59,6 +74,7 @@
     window.setTimeout(() => {
       cover.hidden = true;
       document.querySelector('#home').scrollIntoView({ behavior: reduceMotion ? 'instant' : 'smooth' });
+      startHeartShower();
     }, reduceMotion ? 0 : 1950);
     audio.play().then(() => setMusicState(true)).catch(() => {});
   });
@@ -71,6 +87,10 @@
   }
   musicButton.addEventListener('click', async () => {
     if (audio.paused) {
+      if (!preweddingVideo.paused) {
+        preweddingVideo.pause();
+        resumeWeddingAudio = false;
+      }
       try { await audio.play(); setMusicState(true); } catch { setMusicState(false); }
     } else {
       audio.pause();
@@ -79,6 +99,33 @@
   });
   audio.addEventListener('pause', () => setMusicState(false));
   audio.addEventListener('play', () => setMusicState(true));
+
+  function finishVideoAndRestoreMusic() {
+    if (!preweddingVideo.paused && !preweddingVideo.ended) preweddingVideo.pause();
+    if (!resumeWeddingAudio) return;
+    resumeWeddingAudio = false;
+    audio.play().then(() => setMusicState(true)).catch(() => setMusicState(false));
+  }
+
+  preweddingVideo.addEventListener('play', () => {
+    resumeWeddingAudio = !audio.paused;
+    if (resumeWeddingAudio) {
+      audio.pause();
+      setMusicState(false);
+    }
+  });
+  preweddingVideo.addEventListener('ended', finishVideoAndRestoreMusic);
+
+  if ('IntersectionObserver' in window) {
+    const videoVisibility = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting && (resumeWeddingAudio || !preweddingVideo.paused)) {
+          finishVideoAndRestoreMusic();
+        }
+      });
+    }, { threshold: 0.15 });
+    videoVisibility.observe(preweddingVideo);
+  }
 
   const reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduceMotion) {

@@ -78,3 +78,11 @@
 
 /* Keep both names together on even the narrowest phone screens. */
 @media(max-width:760px){.hero h2{white-space:nowrap;font-size:clamp(1.5rem,8.3vw,3.15rem);letter-spacing:-.045em}.letter-names{white-space:nowrap;font-size:clamp(1.35rem,6.4vw,2.2rem);letter-spacing:-.035em}}
+
+/* A quiet, continuous heart-petal shower after the invitation opens. */
+.page-petals{position:fixed;inset:0;z-index:14;overflow:hidden;pointer-events:none;visibility:hidden;opacity:0;transition:opacity .8s ease}
+.page-petals.is-active{visibility:visible;opacity:1}
+.heart-petal{position:absolute;top:-30px;display:block;line-height:1;font-family:Georgia,serif;font-size:var(--fall-size);opacity:0;will-change:transform,opacity;filter:drop-shadow(0 1px 2px #74213c35);animation:heart-petal-fall var(--fall-duration) linear forwards}
+@keyframes heart-petal-fall{0%{transform:translate3d(0,-2vh,0) rotate(0) scale(.72);opacity:0}12%{opacity:var(--fall-alpha)}48%{transform:translate3d(calc(var(--fall-x)*.55),52vh,0) rotate(calc(var(--fall-turn)*.55)) scale(1);opacity:var(--fall-alpha)}88%{opacity:calc(var(--fall-alpha)*.55)}100%{transform:translate3d(var(--fall-x),112vh,0) rotate(var(--fall-turn)) scale(.72);opacity:0}}
+@media(prefers-reduced-motion:reduce){.page-petals{display:none}}
+@keyframes heart-petal-fall{0%{transform:translate3d(0,-2vh,0) rotate(0) scale(.72);opacity:0}12%{opacity:var(--fall-alpha)}48%{transform:translate3d(var(--fall-mid-x),52vh,0) rotate(var(--fall-mid-turn)) scale(1);opacity:var(--fall-alpha)}88%{opacity:.2}100%{transform:translate3d(var(--fall-x),112vh,0) rotate(var(--fall-turn)) scale(.72);opacity:0}}
