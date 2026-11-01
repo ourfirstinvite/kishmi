@@ -144,17 +144,49 @@
 
   const dialog = document.querySelector('#photoDialog');
   const dialogImage = document.querySelector('#dialogImage');
-  document.querySelectorAll('.gallery-photo').forEach(button => {
+  const photoCounter = document.querySelector('#photoCounter');
+  const galleryPhotos = [...document.querySelectorAll('.gallery-photo')];
+  let activePhoto = 0;
+  function showPhoto(index) {
+    activePhoto = (index + galleryPhotos.length) % galleryPhotos.length;
+    const button = galleryPhotos[activePhoto];
+    dialogImage.classList.add('is-changing');
+    dialogImage.alt = button.querySelector('img').alt;
+    dialogImage.src = button.dataset.image;
+    photoCounter.textContent = `${activePhoto + 1} / ${galleryPhotos.length}`;
+    dialogImage.onload = () => dialogImage.classList.remove('is-changing');
+  }
+  galleryPhotos.forEach((button, index) => {
     button.addEventListener('click', () => {
-      dialogImage.src = button.dataset.image;
-      dialogImage.alt = button.querySelector('img').alt;
+      showPhoto(index);
       dialog.showModal();
     });
   });
   dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+  dialog.querySelector('.dialog-prev').addEventListener('click', () => showPhoto(activePhoto - 1));
+  dialog.querySelector('.dialog-next').addEventListener('click', () => showPhoto(activePhoto + 1));
   dialog.addEventListener('click', event => {
     if (event.target === dialog) dialog.close();
   });
+  dialog.addEventListener('keydown', event => {
+    if (event.key === 'ArrowLeft') { event.preventDefault(); showPhoto(activePhoto - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); showPhoto(activePhoto + 1); }
+  });
+  let swipeStart = null;
+  dialog.addEventListener('pointerdown', event => {
+    if (event.target.closest('button')) return;
+    swipeStart = { x: event.clientX, y: event.clientY };
+  });
+  dialog.addEventListener('pointerup', event => {
+    if (!swipeStart) return;
+    const deltaX = event.clientX - swipeStart.x;
+    const deltaY = event.clientY - swipeStart.y;
+    swipeStart = null;
+    if (Math.abs(deltaX) > 48 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) {
+      showPhoto(activePhoto + (deltaX < 0 ? 1 : -1));
+    }
+  });
+  dialog.addEventListener('pointercancel', () => { swipeStart = null; });
 
   const eventInfo = {
     reception: { name: 'Kishore & Laxmi — Reception', start: '20261119T140000Z', end: '20261119T173000Z', description: 'Reception celebration, 7:30 PM onwards (IST). Shivanna Parvathi Kalyana Mantapa.' },
