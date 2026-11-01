@@ -1,23 +1,15 @@
 (() => {
+  // Start each load at the sealed invitation, even if the browser would
+  // otherwise restore a scroll position from the previously opened page.
+  if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+
   const cover = document.querySelector('#cover');
   const invitation = document.querySelector('#invitation');
   const openButton = document.querySelector('#openInvitation');
   const audio = document.querySelector('#weddingAudio');
   const musicButton = document.querySelector('#musicToggle');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Browsers can restore the previous scroll position on reload. Restore the
-  // opened invitation state too, so the user never lands in a hidden section.
-  try {
-    if (sessionStorage.getItem('kishmi-invitation-opened') === 'true') {
-      document.body.classList.remove('is-locked');
-      invitation.inert = false;
-      invitation.classList.add('is-open');
-      cover.hidden = true;
-    }
-  } catch {
-    // The cover still opens normally when session storage is unavailable.
-  }
 
   // The wedding muhurtham is 9:30 AM IST on 20 November 2026.
   const weddingMoment = new Date('2026-11-20T09:30:00+05:30').getTime();
@@ -60,7 +52,6 @@
   makePetals();
 
   openButton.addEventListener('click', () => {
-    try { sessionStorage.setItem('kishmi-invitation-opened', 'true'); } catch {}
     document.body.classList.remove('is-locked');
     invitation.inert = false;
     invitation.classList.add('is-open');
@@ -68,7 +59,7 @@
     window.setTimeout(() => {
       cover.hidden = true;
       document.querySelector('#home').scrollIntoView({ behavior: reduceMotion ? 'instant' : 'smooth' });
-    }, reduceMotion ? 0 : 600);
+    }, reduceMotion ? 0 : 1950);
     audio.play().then(() => setMusicState(true)).catch(() => {});
   });
 
