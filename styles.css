@@ -114,3 +114,23 @@
 .dialog-close:focus-visible,.dialog-nav:focus-visible{outline:2px solid #f4c5d2;outline-offset:3px}
 .photo-counter{position:absolute;bottom:max(18px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);color:#f9e8ec;font:500 .7rem var(--sans);letter-spacing:.18em;text-shadow:0 2px 8px #000;white-space:nowrap}
 @media(max-width:600px){.photo-dialog{padding:3.7rem 3.15rem 4.5rem}.dialog-nav{width:42px;height:42px;font-size:1.9rem}.dialog-prev{left:max(7px,env(safe-area-inset-left))}.dialog-next{right:max(7px,env(safe-area-inset-right))}.photo-dialog img{max-width:100%;max-height:100%;border-radius:2px}}
+
+/* Edge-to-edge portrait hero with a clear, elevated blessing line. */
+.hero.section-pad{padding:0}
+.hero-frame{min-height:min(790px,88svh);border-radius:0}
+.hero-frame:after{content:"";position:absolute;z-index:1;inset:clamp(12px,2.8vw,24px);border:1px solid #e6c18b80;pointer-events:none}
+.hero-content{z-index:2}
+.hero-mantra{position:absolute;z-index:3;top:clamp(1.25rem,4.5vh,2.8rem);left:50%;width:max-content;max-width:calc(100% - 4rem);transform:translateX(-50%);margin:0;padding:.45rem .8rem;border:1px solid #f2d3b54a;background:linear-gradient(90deg,transparent,#28162266 16%,#28162266 84%,transparent);color:#fff2df;text-align:center;font-size:clamp(.48rem,1.35vw,.66rem);letter-spacing:.16em;text-shadow:0 1px 8px #1b1014;backdrop-filter:blur(2px)}
+.corner{z-index:3}
+@media(max-width:760px){.hero.section-pad{padding:0}.hero-frame{min-height:min(790px,88svh)}.hero-mantra{top:max(1rem,3.2vh);max-width:calc(100% - 3.25rem);padding:.4rem .55rem;font-size:clamp(.43rem,1.7vw,.57rem);letter-spacing:.12em}.hero-content{padding:2rem .85rem}}
+.hero-om{position:absolute;z-index:3;top:clamp(1rem,2.5vh,1.4rem);left:50%;display:grid;place-items:center;width:40px;height:40px;transform:translateX(-50%);border:1px solid #e8c589a6;border-radius:50%;background:#351a2a55;color:#f1d39f;font:1.75rem 'Tiro Devanagari Sanskrit',serif;text-shadow:0 1px 8px #1b1014;backdrop-filter:blur(3px)}
+.hero-mantra{top:clamp(4.35rem,10vh,5rem)}
+@media(max-width:760px){.hero-om{top:1rem;width:36px;height:36px;font-size:1.55rem}.hero-mantra{top:4.1rem}}
+
+/* Keep the hero copy in the dark lower field, clear of the couple's faces. */
+.hero-content{position:absolute;left:0;right:0;bottom:clamp(2.35rem,6vh,3.5rem);width:min(100%,720px);max-width:720px;margin:0 auto;padding:1rem .85rem;z-index:2}
+.hero-kicker{font-size:clamp(.78rem,2.6vw,1rem);margin:.35rem 0 .45rem}
+.hero-divider{margin:.7rem auto}
+.hero-message{font-size:clamp(.84rem,2.8vw,1.05rem);line-height:1.4}
+.hero-date{margin:.75rem 0 1rem;font-size:.62rem;letter-spacing:.14em}
+@media(max-width:760px){.hero-content{bottom:clamp(2.1rem,5.5vh,3rem);padding:.8rem .8rem}.hero-kicker{margin:.2rem 0 .35rem}.hero-divider{margin:.55rem auto}.hero-message{font-size:.84rem;line-height:1.35}.hero-date{margin:.55rem 0 .8rem;font-size:.57rem}.scroll-cue{font-size:.58rem}}
