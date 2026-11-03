@@ -134,3 +134,9 @@
 .hero-message{font-size:clamp(.84rem,2.8vw,1.05rem);line-height:1.4}
 .hero-date{margin:.75rem 0 1rem;font-size:.62rem;letter-spacing:.14em}
 @media(max-width:760px){.hero-content{bottom:clamp(2.1rem,5.5vh,3rem);padding:.8rem .8rem}.hero-kicker{margin:.2rem 0 .35rem}.hero-divider{margin:.55rem auto}.hero-message{font-size:.84rem;line-height:1.35}.hero-date{margin:.55rem 0 .8rem;font-size:.57rem}.scroll-cue{font-size:.58rem}}
+
+/* Gently draw attention to the Om seal before the envelope is opened. */
+.open-invitation .seal{animation:invitation-seal-pulse 2s ease-in-out infinite}
+@keyframes invitation-seal-pulse{0%,100%{filter:brightness(1);box-shadow:0 0 0 4px #cb912d,0 5px 18px #72431d5c,inset 0 0 0 2px #ffe994,inset 0 0 0 6px #d09a2c}50%{filter:brightness(1.12);box-shadow:0 0 0 5px #d49a32,0 0 0 12px #f5d67835,0 0 25px #f5cf69,inset 0 0 0 2px #fff4b5,inset 0 0 0 6px #d09a2c}}
+.cover-opening .open-invitation .seal{animation:none}
+@media(prefers-reduced-motion:reduce){.open-invitation .seal{animation:none}}
