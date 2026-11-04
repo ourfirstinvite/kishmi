@@ -149,3 +149,11 @@
 @media(max-width:390px){.event-actions{display:grid;grid-template-columns:1fr;width:min(100%,190px);max-width:190px;margin-left:auto;margin-right:auto}.event-actions .map-link,.event-actions .calendar-link{min-height:41px}}
 .cover-copy{top:70%;bottom:auto}
 @media(max-width:520px){.cover-copy{top:70%;bottom:auto}}
+
+/* Make the hero scroll cue feel like a clear, tappable invitation action. */
+.scroll-cue{display:inline-flex;align-items:center;justify-content:center;gap:.62rem;min-height:46px;margin-top:.25rem;padding:.42rem 1rem .42rem .55rem;border:1px solid #edcc9d9c;border-radius:999px;background:#2b172a72;color:#fff8f0;font-size:.62rem;letter-spacing:.15em;text-decoration:none;box-shadow:0 5px 18px #160d1835;backdrop-filter:blur(7px);transition:background .22s ease,border-color .22s ease,transform .22s ease,box-shadow .22s ease}
+.scroll-cue span{display:grid;place-items:center;width:30px;height:30px;flex:none;border:1px solid #efcf9e;border-radius:50%;background:#f5e3c918;color:#ffe0ab;font:1.05rem/1 var(--sans);animation:scroll-arrow-bob 1.45s ease-in-out infinite}
+.scroll-cue:hover{transform:translateY(-2px);border-color:#ffe0ab;background:#35182bba;color:#fff;box-shadow:0 8px 22px #160d1855}
+.scroll-cue:focus-visible{outline:3px solid #ffe0ab;outline-offset:4px}
+@keyframes scroll-arrow-bob{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+@media(prefers-reduced-motion:reduce){.scroll-cue span{animation:none}.scroll-cue{transition:none}}
