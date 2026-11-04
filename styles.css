@@ -140,3 +140,12 @@
 @keyframes invitation-seal-pulse{0%,100%{filter:brightness(1);box-shadow:0 0 0 4px #cb912d,0 5px 18px #72431d5c,inset 0 0 0 2px #ffe994,inset 0 0 0 6px #d09a2c}50%{filter:brightness(1.12);box-shadow:0 0 0 5px #d49a32,0 0 0 12px #f5d67835,0 0 25px #f5cf69,inset 0 0 0 2px #fff4b5,inset 0 0 0 6px #d09a2c}}
 .cover-opening .open-invitation .seal{animation:none}
 @media(prefers-reduced-motion:reduce){.open-invitation .seal{animation:none}}
+
+/* Keep the event actions aligned within the narrower text column on phones. */
+.event-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:.45rem;width:100%;max-width:340px;margin:1.15rem auto 0}
+.event-actions .map-link,.event-actions .calendar-link{box-sizing:border-box;min-width:0;width:100%;min-height:42px;flex:none;gap:.28rem;padding:.48rem .32rem;font-size:clamp(.54rem,1.8vw,.64rem);letter-spacing:-.015em}
+.event-actions svg{width:14px;height:14px}
+.event-actions .map-link b{font-size:.68rem}
+@media(max-width:390px){.event-actions{display:grid;grid-template-columns:1fr;width:min(100%,190px);max-width:190px;margin-left:auto;margin-right:auto}.event-actions .map-link,.event-actions .calendar-link{min-height:41px}}
+.cover-copy{top:70%;bottom:auto}
+@media(max-width:520px){.cover-copy{top:70%;bottom:auto}}
