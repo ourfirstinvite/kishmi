@@ -157,3 +157,8 @@
 .scroll-cue:focus-visible{outline:3px solid #ffe0ab;outline-offset:4px}
 @keyframes scroll-arrow-bob{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
 @media(prefers-reduced-motion:reduce){.scroll-cue span{animation:none}.scroll-cue{transition:none}}
+
+/* Put the featured final portrait across two gallery columns. */
+.gallery-grid .photo-5,.gallery-grid .photo-8{grid-column:span 1}
+.gallery-grid .gallery-photo.photo-wide{grid-column:span 2;grid-row:span 2;background:#f3e2e2}
+.gallery-grid .photo-wide img{object-position:center 48%}

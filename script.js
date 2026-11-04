@@ -145,21 +145,7 @@
   const dialog = document.querySelector('#photoDialog');
   const dialogImage = document.querySelector('#dialogImage');
   const photoCounter = document.querySelector('#photoCounter');
-  const galleryGrid = document.querySelector('.gallery-grid');
-  const pinnedPhotos = [...galleryGrid.children].filter(photo => photo.dataset.pinned === 'true');
-  const shuffledPhotos = [...galleryGrid.children].filter(photo => photo.dataset.pinned !== 'true');
-  for (let i = shuffledPhotos.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffledPhotos[i], shuffledPhotos[j]] = [shuffledPhotos[j], shuffledPhotos[i]];
-  }
-  const orderedPhotos = [...pinnedPhotos, ...shuffledPhotos];
-  orderedPhotos.forEach((photo, index) => {
-    [...photo.classList].filter(name => /^photo-\d+$/.test(name)).forEach(name => photo.classList.remove(name));
-    photo.classList.add(`photo-${index + 1}`);
-    photo.setAttribute('aria-label', `View wedding photo ${index + 1}`);
-  });
-  galleryGrid.replaceChildren(...orderedPhotos);
-  const galleryPhotos = orderedPhotos;
+  const galleryPhotos = [...document.querySelectorAll('.gallery-photo')];
   let activePhoto = 0;
   function showPhoto(index) {
     activePhoto = (index + galleryPhotos.length) % galleryPhotos.length;
